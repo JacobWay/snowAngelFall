@@ -174,6 +174,7 @@ window.onload = function(){
     var audioTag = document.createElement('audio');
     if (!(!!(audioTag.canPlayType) && ("no" != audioTag.canPlayType("audio/mpeg")) && ("" != audioTag.canPlayType("audio/mpeg")))) {
         AudioPlayer.embed("audioplayer", {soundFile: "cityinsky.mp3"});
+        audioTag.play();
     }
 
     var GameLoop = function(){
