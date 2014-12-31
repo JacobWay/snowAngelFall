@@ -171,11 +171,30 @@ window.onload = function(){
         }
     }
     
-    var audioTag = document.createElement('audio');
-    if (!(!!(audioTag.canPlayType) && ("no" != audioTag.canPlayType("audio/mpeg")) && ("" != audioTag.canPlayType("audio/mpeg")))) {
-        AudioPlayer.embed("audioplayer", {soundFile: "cityinsky.mp3"});
-        audioTag.play();
+
+var AUTOPLAY = false; // A flag to be used in the anonymous function
+
+(function() {
+
+    // Audio file data URIs; MP3 + OGG
+    var mp3 = 'data:audio/mpeg;base64,cityinsky';
+
+    try {
+        var audio = new Audio(); // Construct new Audio object
+        var src = audio.canPlayType('audio/mp3'); // Ternary statement determining the value of the src variable, which will be either ogg or mp3.
+        audio.autoplay = true; // Set autoplay to true
+
+        // This event will only be triggered if setting the autoplay attribute to true works.             
+        $(audio).on('play', function() {
+            AUTOPLAY = true; // Set the global flag to true, indicating we have support.
+        });
+
+        audio.src = src; // Set the audio objects src to the value of the src variable.
+    } catch(e) {
+        console.log('[AUTOPLAY-ERROR]', e);
+        // This means we were unsuccessful - this browser doesn't support the autoplay attribute.
     }
+})(); // Invoke anonymous function.
 
     var GameLoop = function(){
         draw();
