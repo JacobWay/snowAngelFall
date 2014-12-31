@@ -24,91 +24,93 @@ window.onload = function(){
     
 
 
-var player = new (function(){
-//create new object based on function and assign 
-//what it returns to the 'player' variable
+    var angel = new (function(){
+        //create new object based on function and assign 
+        //what it returns to the 'angel' variable
 
-    var that = this;
-//'that' will be the context now
+        var that = this;
+        //'that' will be the context now
 
-//attributes
-    that.image = new Image();
-    that.image.src = "angel.png";
-//create new Image and set it's source to the 
-//'angel.png' image I upload above
+        //attributes
+        that.image = new Image();
+        that.image.src = "angel.png";
+        //create new Image and set it's source to the 
+        //'angel.png' image 
 
-    that.width = 65;
-//width of the single frame
-    that.height = 95;
-//height of the single frame
+        that.width = 65;
+        //width of the single frame
+        that.height = 95;
+        //height of the single frame
 
-    that.X = 0;
-    that.Y = 0;
-//X&Y position
+        that.X = 0;
+        that.Y = 0;
+        //X&Y position
 
-    that.angle = 0;
+        that.angle = 0;
+        // swinging the angel
 
-    that.frames = 1;
-//number of frames indexed from zero
-    that.actualFrame = 0;
-//start from which frame
-    that.interval = 0;
-//we don't need to switch animation frame
-//on each game loop, interval will helps
-//with this.
+        that.frames = 1;
+        //number of frames indexed from zero
+        that.actualFrame = 0;
+        //start from which frame
+        that.interval = 0;
+        //we don't need to switch animation frame
+        //on each game loop, interval will helps
+        //with this.
 
 
-//methods 
-    that.setPosition = function(x, y){
-    that.X = x;
-    that.Y = y;
-}
+        //methods 
+        that.setPosition = function(x, y){
+        that.X = x;
+        that.Y = y;
+        }
 
-    that.update = function() {
-        that.angle += 0.01;
-        that.Y += Math.cos(angle) + 1;
-        that.X += Math.sin(angle) * 2;
+        that.update = function() {
+            that.angle += 0.01;
+            that.Y += Math.cos(angle) + 1;
+            that.X += Math.sin(angle) * 2;
 
-        that.setPosition(that.X, that.Y);
-        if (that.X > W+5 || that.X < -5 || that.Y > H) {
-            that.X = Math.random() * W;
-            that.Y = -50;
             that.setPosition(that.X, that.Y);
-        }
-
-    }
-
-    that.draw = function(){
-        try {
-            ctx.drawImage(that.image, 0, that.height * that.actualFrame, that.width, that.height, that.X, that.Y, that.width, that.height);
-//cutting source image and pasting it into destination one, drawImage(Image Object, source X, source Y, source Width, source Height, destination X (X position), destination Y (Y position), Destination width, Destination height)
-        } catch (e) {
-//sometimes, if character's image is too big and will not load until the drawing of the first frame, Javascript will throws error and stop executing everything. To avoid this we have to catch an error and retry painting in another frame. It is invisible for the user with 50 frames per second.
-        }
-
-        if (that.interval == 4 ) {
-            if (that.actualFrame == that.frames) {
-                that.actualFrame = 0;
-            } else {
-                that.actualFrame++;
+            if (that.X > W+5 || that.X < -5 || that.Y > H) {
+                that.X = Math.random() * W;
+                that.Y = -50;
+                that.setPosition(that.X, that.Y);
             }
-            that.interval = 0;
-        }
-    that.interval++;
-//all that logic above just
-//switch frames every 4 loops 
-        that.update();
-    }
-})();
-//we immediately execute the function above and 
-//assign its result to the 'player' variable
-//as a new object 
 
-player.setPosition(~~((W-player.width)/2),  ~~((H - player.height)/2));
-//our character is ready, let's move it 
-//to the center of the screen,
-//'~~' returns nearest lower integer from
-//given float, equivalent of Math.floor()
+        }
+
+        that.draw = function(){
+            try {
+                ctx.drawImage(that.image, 0, that.height * that.actualFrame, that.width, that.height, that.X, that.Y, that.width, that.height);
+    //cutting source image and pasting it into destination one, drawImage(Image Object, source X, source Y, source Width, source Height, destination X (X position), destination Y (Y position), Destination width, Destination height)
+            } catch (e) {
+    //sometimes, if character's image is too big and will not load until the drawing of the first frame, Javascript will throws error and stop executing everything. To avoid this we have to catch an error and retry painting in another frame. It is invisible for the user with 50 frames per second.
+            }
+
+            if (that.interval == 4 ) {
+                if (that.actualFrame == that.frames) {
+                    that.actualFrame = 0;
+                } else {
+                    that.actualFrame++;
+                }
+                that.interval = 0;
+            }
+        that.interval++;
+        //all that logic above just
+        //switch frames every 4 loops 
+            that.update();
+        }
+    })();
+    //we immediately execute the function above and 
+    //assign its result to the 'angel' variable
+    //as a new object 
+
+    angel.setPosition(~~((W-angel.width)/2),  ~~((H-angel.height)/2));
+    //our character is ready, let's move it 
+    //to the center of the screen,
+    //'~~' returns nearest lower integer from
+    //given float, equivalent of Math.floor()
+
 
     //Lets draw the flakes
     function draw()
@@ -171,12 +173,12 @@ player.setPosition(~~((W-player.width)/2),  ~~((H - player.height)/2));
     
 
 
-var GameLoop = function(){
-    draw();
-    player.draw();
-    gLoop = setTimeout(GameLoop, 1000 / 50);
-}
-GameLoop();
+    var GameLoop = function(){
+        draw();
+        angel.draw();
+        gLoop = setTimeout(GameLoop, 1000 / 50);
+    }
+    GameLoop();
 
 }
 
